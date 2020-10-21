@@ -113,12 +113,15 @@ public class LoginTabFragment extends Fragment {
                             if(task.isSuccessful()){
                                 progressBar.setVisibility(View.VISIBLE);
                                 Toast.makeText(getContext(), "Logged in successfully", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(getContext(), AttendanceActivity.class));
+                                Intent i = new Intent(getContext(), AttendanceActivity.class);
+                                i.putExtra("Email",email);
+                                i.putExtra("Pass",pass);
+                                startActivity(i);
 
 
-//                                if (getActivity() !=null) {
-//                                    getActivity().finish();
-//                                }
+                                if (getActivity() !=null) {
+                                    getActivity().finish();
+                                }
 
                             }
                             else {

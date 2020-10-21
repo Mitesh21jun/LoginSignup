@@ -54,6 +54,8 @@ public class AttendanceActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
+
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +78,7 @@ public class AttendanceActivity extends AppCompatActivity {
                                             Double lat = location.getLatitude();
                                             Double lng = location.getLongitude();
 
-                                            txt.setText(lat + ", " + lng);
+                                            txt.setText("Hello!  "+firebaseAuth.getCurrentUser().getEmail()+"\n Your location is "+lat + ", " + lng);
                                             Toast.makeText(AttendanceActivity.this, "Success", Toast.LENGTH_SHORT);
 
 // Get a reference to our posts
