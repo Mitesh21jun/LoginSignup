@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,12 +31,10 @@ public class SignUpTabFragment extends Fragment {
     FirebaseDatabase rootNode;
     DatabaseReference reference1;
 
-    MainActivity mainActivity;
     FirebaseAuth fAuth;
     EditText getFname, getLname, getDesignation, getEmail, getMobile, getPass, repeatPass;
     Button signup;
     ProgressBar progressBar;
-    float v = 0;
 
 
     View view;
@@ -100,6 +98,8 @@ public class SignUpTabFragment extends Fragment {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                view = v;
 
 
                 final String isRequiredMsg = " is Required !";
@@ -165,8 +165,14 @@ public class SignUpTabFragment extends Fragment {
 
                             } else {
                                 progressBar.setVisibility(View.INVISIBLE);
-                                Toast.makeText(getContext(), "Error !" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                if(Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()).length()>=60){
+                                    Toast.makeText(getContext(), "Error !" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    Snackbar snackbar = Snackbar.make(view, "Error! " + task.getException().getMessage(), Snackbar.LENGTH_LONG);
 
+                                    snackbar.show();
+                                }
                             }
                         }
                     });
@@ -174,6 +180,5 @@ public class SignUpTabFragment extends Fragment {
             }
         });
         return root;
-//        return super.onCreateView(inflater, container, savedInstanceState);
     }
 }
