@@ -70,27 +70,30 @@ public class AttendanceActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Location location) {
                                         String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                                        String currentDate = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(new Date());
+
                                         if (location != null) {
 
                                             rootNode = FirebaseDatabase.getInstance();
                                             reference = rootNode.getReference("location");
 
+                                            final String deviceDetails = Build.MANUFACTURER + " " + Build.MODEL;
                                             Double lat = location.getLatitude();
                                             Double lng = location.getLongitude();
 
                                             txt.setText("Hello!  "+firebaseAuth.getCurrentUser().getEmail()+"\n Your location is "+lat + ", " + lng);
-                                            Toast.makeText(AttendanceActivity.this, "Success", Toast.LENGTH_SHORT);
+                                            Toast.makeText(AttendanceActivity.this, "Success", Toast.LENGTH_SHORT).show();
 
 // Get a reference to our posts
 
 
                                             //get values from text field
 
-                                            UserHelper helperclass = new UserHelper(lat.toString(), lng.toString(), currentTime);
+                                            UserHelper helperclass = new UserHelper(firebaseAuth.getCurrentUser().getEmail(),lat.toString(), lng.toString(),currentDate, currentTime,deviceDetails);
 
 //                                            reference.child(currentTime).setValue(helperclass);
 
-                                            reference.child(Build.MANUFACTURER + " " + Build.MODEL).child(currentTime).setValue(helperclass);
+                                            reference.child(firebaseAuth.getUid()).child(currentDate).child(currentTime).setValue(helperclass);
 
                                             //mFirebaseAnalytics.logEvent(String.valueOf(a),null);
 
@@ -98,7 +101,7 @@ public class AttendanceActivity extends AppCompatActivity {
                                     }
                                 });
                     } else {
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
                     }
                 }
             }
@@ -107,7 +110,7 @@ public class AttendanceActivity extends AppCompatActivity {
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseAuth.getInstance().signOut();
+                FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 finish();
             }
