@@ -2,30 +2,30 @@ package com.example.loginsignup;
 
 public class SignUpHelper {
 
-    String firstname, lastname, designation, mobile, email;
+    String fullname, username, designation, mobile, email;
 
-    public SignUpHelper(String firstname, String lastname, String designation, String mobile, String email) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public SignUpHelper(String fullname, String username, String designation, String mobile, String email) {
+        this.fullname = fullname;
+        this.username = username;
         this.designation = designation;
         this.mobile = mobile;
         this.email = email;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getDesignation() {

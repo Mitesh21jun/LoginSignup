@@ -30,7 +30,8 @@ public class LoginTabFragment extends Fragment {
     Button loginBtn;
     ProgressBar progressBar;
     Snackbar snackbar;
-    void animateX(View element,float translationX,long duration,long delay){
+
+    void animateX(View element, float translationX, long duration, long delay) {
 
         element.setTranslationX(translationX);
         element.setAlpha(0);
@@ -38,7 +39,7 @@ public class LoginTabFragment extends Fragment {
 
     }
 
-//    void loginAnimate(){
+    //    void loginAnimate(){
 //
 //
 //        mEmail.setTranslationX(300);
@@ -69,14 +70,14 @@ public class LoginTabFragment extends Fragment {
         txtPass = root.findViewById(R.id.pass);
         forgetPass = root.findViewById(R.id.forget_pass);
         loginBtn = root.findViewById(R.id.login);
-        progressBar=root.findViewById(R.id.login_progress);
+        progressBar = root.findViewById(R.id.login_progress);
 
         final View[] view = new View[1];
 
-        animateX(txtEmail,300,1000,300);
-        animateX(txtPass,300,1000,500);
-        animateX(forgetPass,300,1000,500);
-        animateX(loginBtn,300,1000,700);
+        animateX(txtEmail, 300, 1000, 300);
+        animateX(txtPass, 300, 1000, 500);
+        animateX(forgetPass, 300, 1000, 500);
+        animateX(loginBtn, 300, 1000, 700);
 
 //        loginAnimate();
 
@@ -102,33 +103,30 @@ public class LoginTabFragment extends Fragment {
                     txtEmail.setError("Email" + isRequiredMsg);
                 } else if (pass.isEmpty()) {
                     txtPass.setError("Password" + isRequiredMsg);
-                }
-                else {
-                    firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                } else {
+                    firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 progressBar.setVisibility(View.VISIBLE);
                                 Toast.makeText(getContext(), "Logged in successfully", Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(getContext(), AttendanceActivity.class);
-                                i.putExtra("Email",email);
-                                i.putExtra("Pass",pass);
+                                i.putExtra("Email", email);
+                                i.putExtra("Pass", pass);
                                 startActivity(i);
 
 
-                                if (getActivity() !=null) {
+                                if (getActivity() != null) {
                                     getActivity().finish();
                                 }
 
-                            }
-                            else {
+                            } else {
                                 progressBar.setVisibility(View.INVISIBLE);
 
-                                if(task.getException().getMessage().length()>=50){
+                                if (task.getException().getMessage().length() >= 50) {
                                     Toast.makeText(getContext(), "Error !" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                                else {
-                                    snackbar = Snackbar.make(view[0], "Error! "+task.getException().getMessage(), Snackbar.LENGTH_LONG);
+                                } else {
+                                    snackbar = Snackbar.make(view[0], "Error! " + task.getException().getMessage(), Snackbar.LENGTH_LONG);
 
                                     snackbar.show();
                                 }

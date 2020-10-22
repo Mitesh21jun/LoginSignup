@@ -1,5 +1,6 @@
 package com.example.loginsignup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -7,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class AttendanceActivity extends AppCompatActivity {
@@ -35,10 +36,10 @@ public class AttendanceActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseDatabase rootNode;
-    DatabaseReference reference;
+    DatabaseReference locationReference;
 
     private Button btn ,signout;
-    private TextView txt;
+    private TextView txt ,dbTest;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -50,6 +51,7 @@ public class AttendanceActivity extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         btn = findViewById(R.id.locbtn);
         txt = findViewById(R.id.loctxt);
+        dbTest=findViewById(R.id.dbRef);
         signout = findViewById(R.id.signout);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -59,6 +61,10 @@ public class AttendanceActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
+
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -74,26 +80,45 @@ public class AttendanceActivity extends AppCompatActivity {
 
                                         if (location != null) {
 
+
                                             rootNode = FirebaseDatabase.getInstance();
-                                            reference = rootNode.getReference("location");
+                                            locationReference = rootNode.getReference("location");
+                                            DatabaseReference userReference = rootNode.getReference("Users/"+firebaseAuth.getUid());
+                                            DatabaseReference fullNameReference = rootNode.getReference("Users/"+firebaseAuth.getUid()+"/fullname");
+
 
                                             final String deviceDetails = Build.MANUFACTURER + " " + Build.MODEL;
-                                            Double lat = location.getLatitude();
-                                            Double lng = location.getLongitude();
+                                            final Double lat = location.getLatitude();
+                                            final Double lng = location.getLongitude();
 
-                                            txt.setText("Hello!  "+firebaseAuth.getCurrentUser().getEmail()+"\n Your location is "+lat + ", " + lng);
-                                            Toast.makeText(AttendanceActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                            fullNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    String fullName = dataSnapshot.getValue(String.class);
+                                                    txt.setText("Hello!  "+fullName+"\n Your location is "+lat + ", " + lng);
+                                                    Toast.makeText(AttendanceActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                    Toast.makeText(getApplicationContext(), "Error fetching data", Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+//                                            String dbTestTxt = userRefrence.getParent().equalTo("7828420470").toString();
+
+//                                            dbTest.setText(dbTestTxt);
+
 
 // Get a reference to our posts
 
 
                                             //get values from text field
 
-                                            UserHelper helperclass = new UserHelper(firebaseAuth.getCurrentUser().getEmail(),lat.toString(), lng.toString(),currentDate, currentTime,deviceDetails);
+                                            LocationHelper locationHelper = new LocationHelper(firebaseAuth.getCurrentUser().getEmail(),lat.toString(), lng.toString(),currentDate, currentTime,deviceDetails);
 
-//                                            reference.child(currentTime).setValue(helperclass);
+//                                            reference.child(currentTime).setValue(locationHelper);
 
-                                            reference.child(firebaseAuth.getUid()).child(currentDate).child(currentTime).setValue(helperclass);
+                                            locationReference.child(firebaseAuth.getUid()).child(currentDate).child(currentTime).setValue(locationHelper);
 
                                             //mFirebaseAnalytics.logEvent(String.valueOf(a),null);
 

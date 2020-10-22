@@ -7,6 +7,25 @@
     tools:context=".AttendanceActivity">
 
     <TextView
+        android:id="@+id/dbRef"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="DB test"
+        android:textAlignment="center"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/loctxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".8"
+        app:layout_constraintWidth_percent=".7" />
+
+    <TextView
         android:id="@+id/loctxt"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent=".7"

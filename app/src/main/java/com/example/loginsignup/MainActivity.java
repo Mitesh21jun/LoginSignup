@@ -24,6 +24,8 @@ import com.google.android.material.tabs.TabLayout.ViewPagerOnTabSelectedListener
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 //        signup1 = findViewById(R.id.signup);
 //
         if (fAuth.getCurrentUser() != null) {
+
             startActivity(new Intent(getApplicationContext(), AttendanceActivity.class));
             finish();
         }

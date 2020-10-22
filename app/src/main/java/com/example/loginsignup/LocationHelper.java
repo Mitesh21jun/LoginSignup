@@ -1,23 +1,23 @@
 package com.example.loginsignup;
 
-public class UserHelper {
-    String currentDate, email, lat, lng, currentTime, deviceDetails;
+public class LocationHelper {
+    String date, email, lat, lng, time, deviceDetails;
 
-    public UserHelper(String email, String lat, String lng, String currentTime, String currentDate, String deviceDetails) {
+    public LocationHelper(String email, String lat, String lng, String time, String date, String deviceDetails) {
         this.lat = lat;
         this.deviceDetails = deviceDetails;
         this.lng = lng;
-        this.currentTime = currentTime;
+        this.time = time;
         this.email = email;
-        this.currentDate = currentDate;
+        this.date = date;
     }
 
-    public String getCurrentDate() {
-        return currentDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setCurrentDate(String currentDate) {
-        this.currentDate = currentDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDeviceDetails() {
@@ -36,14 +36,14 @@ public class UserHelper {
         this.email = email;
     }
 
-    public String getCurrentTime() {
+    public String getTime() {
 
-        return currentTime;
+        return time;
     }
 
-    public void setCurrentTime(String currentTime) {
+    public void setTime(String time) {
 
-        this.currentTime = currentTime;
+        this.time = time;
     }
 
     public String getLat() {

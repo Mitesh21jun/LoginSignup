@@ -81,7 +81,6 @@ public class SignUpTabFragment extends Fragment {
         //signUpAnimate();
 
 
-
         //Animation
 
         loginTabFragment.animateX(txtFullName, 300, 1000, 300);
@@ -99,7 +98,7 @@ public class SignUpTabFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                view = v;
+                view = v;                                                  //to use in Snackbar
 
 
                 final String isRequiredMsg = " is Required !";
@@ -118,15 +117,14 @@ public class SignUpTabFragment extends Fragment {
                     txtFullName.setError("First name" + isRequiredMsg);
                 } else if (userName.isEmpty()) {
                     txtUserName.setError("Last name" + isRequiredMsg);
-                } else if (designation.isEmpty()) {
-                    txtDesignation.setError("Designation in company" + isRequiredMsg);
+//                } else if (designation.isEmpty()) {
+//                    txtDesignation.setError("Designation in company" + isRequiredMsg);
                 } else if (mobile.isEmpty()) {
                     txtMobile.setError("Mobile" + isRequiredMsg);
                 } else if (mobile.length() != 10) {
                     txtMobile.setError("Enter a valid 10 digit mobile number");
                 } else if (!(m.find() && m.group().equals(mobile))) {
                     txtMobile.setError("Enter Valid Mobile number type");
-
                 } else if (email.isEmpty()) {
                     txtEmail.setError("Email" + isRequiredMsg);
                 } else if (pass.isEmpty()) {
@@ -150,25 +148,21 @@ public class SignUpTabFragment extends Fragment {
 
                                 try {
                                     SignUpHelper signUpHelper = new SignUpHelper(fullName, userName, designation, mobile, email);
-                                    reference1.child(mobile).setValue(signUpHelper);
+                                    reference1.child(fAuth.getUid()).setValue(signUpHelper);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
 //                                mainActivity.finish();
 
                                 if (getActivity() != null) {
-
                                     getActivity().finish();
-
-
                                 }
 
                             } else {
                                 progressBar.setVisibility(View.INVISIBLE);
-                                if(Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()).length()>=60){
+                                if (Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()).length() >= 60) {
                                     Toast.makeText(getContext(), "Error !" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                                else {
+                                } else {
                                     Snackbar snackbar = Snackbar.make(view, "Error! " + task.getException().getMessage(), Snackbar.LENGTH_LONG);
 
                                     snackbar.show();

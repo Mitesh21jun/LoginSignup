@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/login_back"
+            android:src="@drawable/bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.27"
@@ -97,8 +97,8 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/app_logo"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -112,6 +112,7 @@
         android:text="Welcome"
         android:textColor="@color/cardview_dark_background"
         android:textStyle="bold"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
