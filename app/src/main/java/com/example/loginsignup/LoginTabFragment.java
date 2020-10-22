@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,7 +25,7 @@ public class LoginTabFragment extends Fragment {
 
     MainActivity mainActivity;
     FirebaseAuth firebaseAuth;
-    EditText mEmail, mPass;
+    EditText txtEmail, txtPass;
     TextView forgetPass;
     Button login;
     float v = 0;
@@ -68,16 +66,16 @@ public class LoginTabFragment extends Fragment {
 //        return super.onCreateView(inflater, container, savedInstanceState);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        mEmail = root.findViewById(R.id.email);
-        mPass = root.findViewById(R.id.pass);
+        txtEmail = root.findViewById(R.id.email);
+        txtPass = root.findViewById(R.id.pass);
         forgetPass = root.findViewById(R.id.forget_pass);
         login = root.findViewById(R.id.login);
         progressBar=root.findViewById(R.id.login_progress);
 
         final View[] view = new View[1];
 
-        animateX(mEmail,300,1000,300);
-        animateX(mPass,300,1000,500);
+        animateX(txtEmail,300,1000,300);
+        animateX(txtPass,300,1000,500);
         animateX(forgetPass,300,1000,500);
         animateX(login,300,1000,700);
 
@@ -97,14 +95,14 @@ public class LoginTabFragment extends Fragment {
                         });*/
                 final String isRequiredMsg = " is Required !";
 
-                final String email = mEmail.getText().toString().trim();
-                final String pass = mPass.getText().toString();
+                final String email = txtEmail.getText().toString().trim();
+                final String pass = txtPass.getText().toString();
 
 
                 if (email.isEmpty()) {
-                    mEmail.setError("Email" + isRequiredMsg);
+                    txtEmail.setError("Email" + isRequiredMsg);
                 } else if (pass.isEmpty()) {
-                    mPass.setError("Password" + isRequiredMsg);
+                    txtPass.setError("Password" + isRequiredMsg);
                 }
                 else {
                     firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

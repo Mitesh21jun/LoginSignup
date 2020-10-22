@@ -32,7 +32,7 @@ public class SignUpTabFragment extends Fragment {
     DatabaseReference reference1;
 
     FirebaseAuth fAuth;
-    EditText getFname, getLname, getDesignation, getEmail, getMobile, getPass, repeatPass;
+    EditText txtFullName, txtUserName, txtDesignation, txtEmail, txtMobile, txtPass, txtConfPass;
     Button signup;
     ProgressBar progressBar;
 
@@ -69,13 +69,13 @@ public class SignUpTabFragment extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.signup_tab_fragment, container, false);
         fAuth = FirebaseAuth.getInstance();
 
-        getFname = root.findViewById(R.id.fname);
-        getLname = root.findViewById(R.id.lname);
-        getDesignation = root.findViewById(R.id.designation);
-        getMobile = root.findViewById(R.id.get_mobile);
-        getEmail = root.findViewById(R.id.get_email);
-        getPass = root.findViewById(R.id.get_pass);
-        repeatPass = root.findViewById(R.id.repeat_pass);
+        txtFullName = root.findViewById(R.id.full_name);
+        txtUserName = root.findViewById(R.id.username);
+        txtDesignation = root.findViewById(R.id.designation);
+        txtMobile = root.findViewById(R.id.get_mobile);
+        txtEmail = root.findViewById(R.id.get_email);
+        txtPass = root.findViewById(R.id.get_pass);
+        txtConfPass = root.findViewById(R.id.repeat_pass);
         signup = root.findViewById(R.id.signup);
         progressBar = root.findViewById(R.id.progressbar);
         //signUpAnimate();
@@ -84,13 +84,13 @@ public class SignUpTabFragment extends Fragment {
 
         //Animation
 
-        loginTabFragment.animateX(getFname, 300, 1000, 300);
-        loginTabFragment.animateX(getLname, 300, 1000, 600);
-        loginTabFragment.animateX(getDesignation, 300, 1000, 900);
-        loginTabFragment.animateX(getMobile, 300, 1000, 1200);
-        loginTabFragment.animateX(getEmail, 300, 1000, 1500);
-        loginTabFragment.animateX(getPass, 300, 1000, 1800);
-        loginTabFragment.animateX(repeatPass, 300, 1000, 2100);
+        loginTabFragment.animateX(txtFullName, 300, 1000, 300);
+        loginTabFragment.animateX(txtUserName, 300, 1000, 600);
+        loginTabFragment.animateX(txtDesignation, 300, 1000, 900);
+        loginTabFragment.animateX(txtMobile, 300, 1000, 1200);
+        loginTabFragment.animateX(txtEmail, 300, 1000, 1500);
+        loginTabFragment.animateX(txtPass, 300, 1000, 1800);
+        loginTabFragment.animateX(txtConfPass, 300, 1000, 2100);
 
         rootNode = FirebaseDatabase.getInstance();
         reference1 = rootNode.getReference("Users");
@@ -103,40 +103,40 @@ public class SignUpTabFragment extends Fragment {
 
 
                 final String isRequiredMsg = " is Required !";
-                final String fname = getFname.getText().toString();
-                final String lname = getLname.getText().toString();
-                final String designation = getDesignation.getText().toString();
-                final String mobile = getMobile.getText().toString();
-                final String email = getEmail.getText().toString();
-                final String pass = getPass.getText().toString();
-                final String confPass = repeatPass.getText().toString();
+                final String fullName = txtFullName.getText().toString();
+                final String userName = txtUserName.getText().toString();
+                final String designation = txtDesignation.getText().toString();
+                final String mobile = txtMobile.getText().toString();
+                final String email = txtEmail.getText().toString();
+                final String pass = txtPass.getText().toString();
+                final String confPass = txtConfPass.getText().toString();
 
                 Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}");
                 Matcher m = p.matcher(mobile);
 
-                if (fname.isEmpty()) {
-                    getFname.setError("First name" + isRequiredMsg);
-                } else if (lname.isEmpty()) {
-                    getLname.setError("Last name" + isRequiredMsg);
+                if (fullName.isEmpty()) {
+                    txtFullName.setError("First name" + isRequiredMsg);
+                } else if (userName.isEmpty()) {
+                    txtUserName.setError("Last name" + isRequiredMsg);
                 } else if (designation.isEmpty()) {
-                    getDesignation.setError("Designation in company" + isRequiredMsg);
+                    txtDesignation.setError("Designation in company" + isRequiredMsg);
                 } else if (mobile.isEmpty()) {
-                    getMobile.setError("Mobile" + isRequiredMsg);
+                    txtMobile.setError("Mobile" + isRequiredMsg);
                 } else if (mobile.length() != 10) {
-                    getMobile.setError("Enter a valid 10 digit mobile number");
+                    txtMobile.setError("Enter a valid 10 digit mobile number");
                 } else if (!(m.find() && m.group().equals(mobile))) {
-                    getMobile.setError("Enter Valid Mobile number type");
+                    txtMobile.setError("Enter Valid Mobile number type");
 
                 } else if (email.isEmpty()) {
-                    getEmail.setError("Email" + isRequiredMsg);
+                    txtEmail.setError("Email" + isRequiredMsg);
                 } else if (pass.isEmpty()) {
-                    getPass.setError("Password" + isRequiredMsg);
+                    txtPass.setError("Password" + isRequiredMsg);
                 } else if (pass.length() < 6) {
-                    getPass.setError("Min 6 digit password" + isRequiredMsg);
+                    txtPass.setError("Min 6 digit password" + isRequiredMsg);
                 } else if (confPass.isEmpty()) {
-                    repeatPass.setError("Password" + isRequiredMsg);
+                    txtConfPass.setError("Password" + isRequiredMsg);
                 } else if (!pass.equals(confPass)) {
-                    repeatPass.setError("Both passwords should match");
+                    txtConfPass.setError("Both passwords should match");
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
 
@@ -149,7 +149,7 @@ public class SignUpTabFragment extends Fragment {
                                 startActivity(new Intent(getContext(), AttendanceActivity.class));
 
                                 try {
-                                    SignUpHelper signUpHelper = new SignUpHelper(fname, lname, designation, mobile, email);
+                                    SignUpHelper signUpHelper = new SignUpHelper(fullName, userName, designation, mobile, email);
                                     reference1.child(mobile).setValue(signUpHelper);
                                 } catch (Exception e) {
                                     e.printStackTrace();

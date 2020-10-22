@@ -17,11 +17,11 @@
 
 
             <EditText
-                android:id="@+id/fname"
+                android:id="@+id/full_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_bg"
-                android:hint="Enter First name"
+                android:hint="Enter full name"
                 android:inputType="textPersonName"
                 android:paddingLeft="20dp"
                 android:paddingTop="10dp"
@@ -34,30 +34,11 @@
                 app:layout_constraintVertical_bias="0.1"
                 app:layout_constraintWidth_percent=".8" />
             <EditText
-                android:id="@+id/lname"
+                android:id="@+id/username"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_bg"
-                android:hint="Enter Last name"
-                android:inputType="textPersonName"
-                android:layout_marginTop="20dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias=".5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fname"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_percent=".8" />
-
-            <EditText
-                android:id="@+id/designation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_bg"
-                android:hint="Enter Designation"
+                android:hint="Enter Username"
                 android:inputType="text"
                 android:layout_marginTop="20dp"
                 android:paddingLeft="20dp"
@@ -67,7 +48,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias=".5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lname"
+                app:layout_constraintTop_toBottomOf="@+id/full_name"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".8" />
+
+            <EditText
+                android:id="@+id/designation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Enter Designation(Optioinal)"
+                android:inputType="text"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias=".5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/username"
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintWidth_percent=".8" />
 
