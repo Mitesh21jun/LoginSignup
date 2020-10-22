@@ -27,8 +27,7 @@ public class LoginTabFragment extends Fragment {
     FirebaseAuth firebaseAuth;
     EditText txtEmail, txtPass;
     TextView forgetPass;
-    Button login;
-    float v = 0;
+    Button loginBtn;
     ProgressBar progressBar;
     Snackbar snackbar;
     void animateX(View element,float translationX,long duration,long delay){
@@ -69,7 +68,7 @@ public class LoginTabFragment extends Fragment {
         txtEmail = root.findViewById(R.id.email);
         txtPass = root.findViewById(R.id.pass);
         forgetPass = root.findViewById(R.id.forget_pass);
-        login = root.findViewById(R.id.login);
+        loginBtn = root.findViewById(R.id.login);
         progressBar=root.findViewById(R.id.login_progress);
 
         final View[] view = new View[1];
@@ -77,11 +76,11 @@ public class LoginTabFragment extends Fragment {
         animateX(txtEmail,300,1000,300);
         animateX(txtPass,300,1000,500);
         animateX(forgetPass,300,1000,500);
-        animateX(login,300,1000,700);
+        animateX(loginBtn,300,1000,700);
 
 //        loginAnimate();
 
-        login.setOnClickListener(new View.OnClickListener() {
+        loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
