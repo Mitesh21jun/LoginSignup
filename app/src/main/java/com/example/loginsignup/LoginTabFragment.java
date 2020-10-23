@@ -1,5 +1,6 @@
 package com.example.loginsignup;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,11 +16,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginTabFragment extends Fragment {
 
@@ -28,7 +33,7 @@ public class LoginTabFragment extends Fragment {
     EditText txtEmail, txtPass;
     TextView forgetPass;
     Button loginBtn;
-    ProgressBar progressBar;
+    LottieAnimationView loginsuccessAnim;
     Snackbar snackbar;
 
     void animateX(View element, float translationX, long duration, long delay) {
@@ -70,7 +75,7 @@ public class LoginTabFragment extends Fragment {
         txtPass = root.findViewById(R.id.pass);
         forgetPass = root.findViewById(R.id.forget_pass);
         loginBtn = root.findViewById(R.id.login);
-        progressBar = root.findViewById(R.id.login_progress);
+        loginsuccessAnim = root.findViewById(R.id.loginanim);
 
         final View[] view = new View[1];
 
@@ -108,20 +113,28 @@ public class LoginTabFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                progressBar.setVisibility(View.VISIBLE);
-                                Toast.makeText(getContext(), "Logged in successfully", Toast.LENGTH_LONG).show();
-                                Intent i = new Intent(getContext(), AttendanceActivity.class);
-                                i.putExtra("Email", email);
-                                i.putExtra("Pass", pass);
-                                startActivity(i);
+                                loginsuccessAnim.setVisibility(View.VISIBLE);
+
+                                new Timer().schedule(new TimerTask(){
+                                    public void run() {
+
+//                                        Toast.makeText(getContext(), "User created", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(getContext(), AttendanceActivity.class));
+                                        Activity thisActivity = getActivity();
+                                        if (thisActivity != null) {
+                                            startActivity(new Intent(thisActivity, AttendanceActivity.class)); // if needed
+                                            thisActivity.finish();
+                                        }
+                                    }
+                                }, 2000);
+
+//                                Toast.makeText(getContext(), "Logged in successfully", Toast.LENGTH_LONG).show();
 
 
-                                if (getActivity() != null) {
-                                    getActivity().finish();
-                                }
+
 
                             } else {
-                                progressBar.setVisibility(View.INVISIBLE);
+                                loginsuccessAnim.setVisibility(View.INVISIBLE);
 
                                 if (task.getException().getMessage().length() >= 50) {
                                     Toast.makeText(getContext(), "Error !" + task.getException().getMessage(), Toast.LENGTH_LONG).show();

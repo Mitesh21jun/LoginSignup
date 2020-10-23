@@ -1,5 +1,6 @@
 package com.example.loginsignup;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +38,7 @@ public class SignUpTabFragment extends Fragment {
     FirebaseAuth fAuth;
     EditText txtFullName, txtUserName, txtDesignation, txtEmail, txtMobile, txtPass, txtConfPass;
     Button signup;
-    ProgressBar progressBar;
+    LottieAnimationView validationLottieAnim;
 
 
     View view;
@@ -43,26 +47,7 @@ public class SignUpTabFragment extends Fragment {
     LoginTabFragment loginTabFragment = new LoginTabFragment();
 
 
-//    void signUpAnimate() {
-//        getMobile.setTranslationX(300);
-//        getEmail.setTranslationX(300);
-//        getPass.setTranslationX(300);
-//        repeatPass.setTranslationX(300);
-//        signup.setTranslationX(300);
-//
-//        getMobile.setAlpha(v);
-//        getEmail.setAlpha(v);
-//        getPass.setAlpha(v);
-//        repeatPass.setAlpha(v);
-//        signup.setAlpha(v);
-//
-//        getMobile.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(300).start();
-//        getEmail.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(450).start();
-//        getPass.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(600).start();
-//        repeatPass.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(750).start();
-//        signup.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(900).start();
-//
-//    }
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -77,7 +62,7 @@ public class SignUpTabFragment extends Fragment {
         txtPass = root.findViewById(R.id.get_pass);
         txtConfPass = root.findViewById(R.id.repeat_pass);
         signup = root.findViewById(R.id.signup);
-        progressBar = root.findViewById(R.id.progressbar);
+        validationLottieAnim = root.findViewById(R.id.validationanim);
         //signUpAnimate();
 
 
@@ -136,15 +121,15 @@ public class SignUpTabFragment extends Fragment {
                 } else if (!pass.equals(confPass)) {
                     txtConfPass.setError("Both passwords should match");
                 } else {
-                    progressBar.setVisibility(View.VISIBLE);
+
+
 
                     fAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            validationLottieAnim.setVisibility(View.VISIBLE);
                             if (task.isSuccessful()) {
 
-                                Toast.makeText(getContext(), "User created", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(getContext(), AttendanceActivity.class));
 
                                 try {
                                     SignUpHelper signUpHelper = new SignUpHelper(fullName, userName, designation, mobile, email);
@@ -154,12 +139,29 @@ public class SignUpTabFragment extends Fragment {
                                 }
 //                                mainActivity.finish();
 
-                                if (getActivity() != null) {
-                                    getActivity().finish();
-                                }
+                                new Timer().schedule(new TimerTask(){
+                                    public void run() {
+
+//                                        Toast.makeText(getContext(), "User created", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(getContext(), AttendanceActivity.class));
+                                        Activity thisActivity = getActivity();
+                                        if (thisActivity != null) {
+                                            startActivity(new Intent(thisActivity, AttendanceActivity.class)); // if needed
+                                            thisActivity.finish();
+                                        }
+                                    }
+                                }, 3000);
+
+//
+//                                Toast.makeText(getContext(), "User created", Toast.LENGTH_LONG).show();
+//                                startActivity(new Intent(getContext(), AttendanceActivity.class));
+//
+//                                if (getActivity() != null) {
+//                                    getActivity().finish();
+//                                }
 
                             } else {
-                                progressBar.setVisibility(View.INVISIBLE);
+                                validationLottieAnim.setVisibility(View.INVISIBLE);
                                 if (Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()).length() >= 60) {
                                     Toast.makeText(getContext(), "Error !" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 } else {

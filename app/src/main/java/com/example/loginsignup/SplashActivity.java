@@ -41,8 +41,10 @@ public class SplashActivity extends AppCompatActivity {
         new Timer().schedule(new TimerTask(){
             public void run() {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
             }
         }, 3200);
+
     }
 //
 
