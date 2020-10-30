@@ -27,7 +27,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class LoginTabFragment extends Fragment {
-
     MainActivity mainActivity;
     FirebaseAuth firebaseAuth;
     EditText txtEmail, txtPass;
