@@ -30,6 +30,7 @@ public class LoginTabFragment extends Fragment {
     MainActivity mainActivity;
     FirebaseAuth firebaseAuth;
     EditText txtEmail, txtPass;
+
     TextView forgetPass;
     Button loginBtn;
     LottieAnimationView loginsuccessAnim;
