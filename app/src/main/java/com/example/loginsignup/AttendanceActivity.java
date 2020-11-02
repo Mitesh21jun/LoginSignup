@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -50,6 +53,9 @@ public class AttendanceActivity extends AppCompatActivity {
     private Button btn, signout;
     private TextView txt;
     private FirebaseAnalytics mFirebaseAnalytics;
+
+    Geocoder geocoder;
+    List <Address> myAddress;
 
     private final int REQUEST_CHECK_CODE = 8989;
 
@@ -136,6 +142,16 @@ public class AttendanceActivity extends AppCompatActivity {
                                             final Double lat = location.getLatitude();
                                             final Double lng = location.getLongitude();
 
+                                            //Location name of lat lng
+                                            geocoder = new Geocoder(AttendanceActivity.this,Locale.getDefault());
+                                            try {
+                                                myAddress= geocoder.getFromLocation(lat,lng,1);
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            String address = myAddress.get(0).getAddressLine(0);
+
                                             fullNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -159,7 +175,7 @@ public class AttendanceActivity extends AppCompatActivity {
 
                                             //get values from text field
 
-                                            LocationHelper locationHelper = new LocationHelper(firebaseAuth.getCurrentUser().getEmail(), lat.toString(), lng.toString(), currentDate, currentTime, deviceDetails);
+                                            LocationHelper locationHelper = new LocationHelper(address,firebaseAuth.getCurrentUser().getEmail(), lat.toString(), lng.toString(), currentDate, currentTime, deviceDetails);
 
 //                                            reference.child(currentTime).setValue(locationHelper);
 
