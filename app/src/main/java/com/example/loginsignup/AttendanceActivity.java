@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.loginsignup.helper.LocationHelper;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -45,18 +46,12 @@ import java.util.Locale;
 public class AttendanceActivity extends AppCompatActivity {
 
     FusedLocationProviderClient fusedLocationProviderClient;
-
     FirebaseAuth firebaseAuth;
     FirebaseDatabase rootNode;
     DatabaseReference locationReference;
-
-    private Button btn, signout;
     private TextView txt;
-    private FirebaseAnalytics mFirebaseAnalytics;
-
     Geocoder geocoder;
-    List <Address> myAddress;
-
+    List<Address> addressList;
     private final int REQUEST_CHECK_CODE = 8989;
 
     @Override
@@ -66,16 +61,15 @@ public class AttendanceActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        btn = findViewById(R.id.locbtn);
+        Button btn = findViewById(R.id.locbtn);
         txt = findViewById(R.id.loctxt);
-        signout = findViewById(R.id.signout);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Button signOut = findViewById(R.id.signout);
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -102,23 +96,17 @@ public class AttendanceActivity extends AppCompatActivity {
                                                 .RESOLUTION_REQUIRED:
                                             try {
                                                 ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                                                resolvableApiException.startResolutionForResult(AttendanceActivity.this,REQUEST_CHECK_CODE);
-                                            }catch (IntentSender.SendIntentException ex){
+                                                resolvableApiException.startResolutionForResult(AttendanceActivity.this, REQUEST_CHECK_CODE);
+                                            } catch (IntentSender.SendIntentException | ClassCastException ex) {
                                                 ex.printStackTrace();
-                                            }catch (ClassCastException ec){
-                                                ec.printStackTrace();
                                             }
                                             break;
 
-                                        case LocationSettingsStatusCodes
-                                                .SETTINGS_CHANGE_UNAVAILABLE:
-
+                                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                                             break;
-
                                     }
                                     e.printStackTrace();
                                 }
-
                             }
                         });
 
@@ -131,58 +119,41 @@ public class AttendanceActivity extends AppCompatActivity {
 
                                         if (location != null) {
 
-
+                                            //Get a reference to our posts
                                             rootNode = FirebaseDatabase.getInstance();
                                             locationReference = rootNode.getReference("location");
                                             DatabaseReference userReference = rootNode.getReference("Users/" + firebaseAuth.getUid());
                                             DatabaseReference fullNameReference = rootNode.getReference("Users/" + firebaseAuth.getUid() + "/fullname");
-
 
                                             final String deviceDetails = Build.MANUFACTURER + " " + Build.MODEL;
                                             final Double lat = location.getLatitude();
                                             final Double lng = location.getLongitude();
 
                                             //Location name of lat lng
-                                            geocoder = new Geocoder(AttendanceActivity.this,Locale.getDefault());
+                                            geocoder = new Geocoder(AttendanceActivity.this, Locale.getDefault());
                                             try {
-                                                myAddress= geocoder.getFromLocation(lat,lng,1);
+                                                addressList = geocoder.getFromLocation(lat, lng, 1);
                                             } catch (IOException e) {
                                                 e.printStackTrace();
                                             }
 
-                                            String address = myAddress.get(0).getAddressLine(0);
+                                            final String myAddress = addressList.get(0).getAddressLine(0);
 
                                             fullNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     String fullName = dataSnapshot.getValue(String.class);
-                                                    txt.setText("Hello!  " + fullName + "\n Your location is " + lat + ", " + lng);
+                                                    txt.setText("Hello!  " + fullName + "\n Your location is " + myAddress);
                                                     Toast.makeText(AttendanceActivity.this, "Success", Toast.LENGTH_SHORT).show();
                                                 }
-
                                                 @Override
                                                 public void onCancelled(@NonNull DatabaseError databaseError) {
                                                     Toast.makeText(getApplicationContext(), "Error fetching data", Toast.LENGTH_LONG).show();
                                                 }
                                             });
-//                                            String dbTestTxt = userRefrence.getParent().equalTo("7828420470").toString();
-
-//                                            dbTest.setText(dbTestTxt);
-
-
-// Get a reference to our posts
-
-
-                                            //get values from text field
-
-                                            LocationHelper locationHelper = new LocationHelper(address,firebaseAuth.getCurrentUser().getEmail(), lat.toString(), lng.toString(), currentDate, currentTime, deviceDetails);
-
-//                                            reference.child(currentTime).setValue(locationHelper);
-
+                                            //Storing values from text field
+                                            LocationHelper locationHelper = new LocationHelper(myAddress, firebaseAuth.getCurrentUser().getEmail(), lat.toString(), lng.toString(), currentDate, currentTime, deviceDetails);
                                             locationReference.child(firebaseAuth.getUid()).child(currentDate).child(currentTime).setValue(locationHelper);
-
-                                            //mFirebaseAnalytics.logEvent(String.valueOf(a),null);
-
                                         }
                                     }
                                 });
@@ -193,7 +164,7 @@ public class AttendanceActivity extends AppCompatActivity {
             }
         });
 
-        signout.setOnClickListener(new View.OnClickListener() {
+        signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();

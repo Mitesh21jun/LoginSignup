@@ -1,4 +1,4 @@
-package com.example.loginsignup;
+package com.example.loginsignup.helper;
 
 public class LocationHelper {
     String address, date, email, lat, lng, time, deviceDetails;

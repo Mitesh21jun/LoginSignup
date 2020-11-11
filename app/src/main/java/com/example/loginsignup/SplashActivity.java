@@ -20,10 +20,6 @@ public class SplashActivity extends AppCompatActivity {
     TextView txtSplash;
     LottieAnimationView lottieAnimationView;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

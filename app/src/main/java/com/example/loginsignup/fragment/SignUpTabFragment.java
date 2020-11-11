@@ -1,4 +1,4 @@
-package com.example.loginsignup;
+package com.example.loginsignup.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.loginsignup.AttendanceActivity;
+import com.example.loginsignup.R;
+import com.example.loginsignup.helper.SignUpHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -34,19 +36,12 @@ public class SignUpTabFragment extends Fragment {
 
     FirebaseDatabase rootNode;
     DatabaseReference reference1;
-
     FirebaseAuth fAuth;
     EditText txtFullName, txtUserName, txtDesignation, txtEmail, txtMobile, txtPass, txtConfPass;
-    Button signup;
+    Button signUp;
     LottieAnimationView validationLottieAnim;
-
-
     View view;
-
-
     LoginTabFragment loginTabFragment = new LoginTabFragment();
-
-
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,29 +56,26 @@ public class SignUpTabFragment extends Fragment {
         txtEmail = root.findViewById(R.id.get_email);
         txtPass = root.findViewById(R.id.get_pass);
         txtConfPass = root.findViewById(R.id.repeat_pass);
-        signup = root.findViewById(R.id.signup);
+        signUp = root.findViewById(R.id.signup);
         validationLottieAnim = root.findViewById(R.id.validationanim);
-        //signUpAnimate();
-
 
         //Animation
-
-        loginTabFragment.animateX(txtFullName, 300, 1000, 300);
-        loginTabFragment.animateX(txtUserName, 300, 1000, 600);
-        loginTabFragment.animateX(txtDesignation, 300, 1000, 900);
-        loginTabFragment.animateX(txtMobile, 300, 1000, 1200);
-        loginTabFragment.animateX(txtEmail, 300, 1000, 1500);
-        loginTabFragment.animateX(txtPass, 300, 1000, 1800);
-        loginTabFragment.animateX(txtConfPass, 300, 1000, 2100);
+        loginTabFragment.animateX(txtFullName, 300);
+        loginTabFragment.animateX(txtUserName, 600);
+        loginTabFragment.animateX(txtDesignation, 900);
+        loginTabFragment.animateX(txtMobile, 1200);
+        loginTabFragment.animateX(txtEmail, 1500);
+        loginTabFragment.animateX(txtPass, 1800);
+        loginTabFragment.animateX(txtConfPass, 2100);
 
         rootNode = FirebaseDatabase.getInstance();
         reference1 = rootNode.getReference("Users");
 
-        signup.setOnClickListener(new View.OnClickListener() {
+        signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                view = v;                                                  //to use in Snackbar
+                view = v;           //to use view in Snackbar
 
 
                 final String isRequiredMsg = " is Required !";
@@ -102,8 +94,6 @@ public class SignUpTabFragment extends Fragment {
                     txtFullName.setError("First name" + isRequiredMsg);
                 } else if (userName.isEmpty()) {
                     txtUserName.setError("Last name" + isRequiredMsg);
-//                } else if (designation.isEmpty()) {
-//                    txtDesignation.setError("Designation in company" + isRequiredMsg);
                 } else if (mobile.isEmpty()) {
                     txtMobile.setError("Mobile" + isRequiredMsg);
                 } else if (mobile.length() != 10) {
@@ -122,27 +112,20 @@ public class SignUpTabFragment extends Fragment {
                     txtConfPass.setError("Both passwords should match");
                 } else {
 
-
-
                     fAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             validationLottieAnim.setVisibility(View.VISIBLE);
                             if (task.isSuccessful()) {
-
-
                                 try {
                                     SignUpHelper signUpHelper = new SignUpHelper(fullName, userName, designation, mobile, email);
                                     reference1.child(fAuth.getUid()).setValue(signUpHelper);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-//                                mainActivity.finish();
 
-                                new Timer().schedule(new TimerTask(){
+                                new Timer().schedule(new TimerTask() {
                                     public void run() {
-
-//                                        Toast.makeText(getContext(), "User created", Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(getContext(), AttendanceActivity.class));
                                         Activity thisActivity = getActivity();
                                         if (thisActivity != null) {
@@ -151,22 +134,12 @@ public class SignUpTabFragment extends Fragment {
                                         }
                                     }
                                 }, 3000);
-
-//
-//                                Toast.makeText(getContext(), "User created", Toast.LENGTH_LONG).show();
-//                                startActivity(new Intent(getContext(), AttendanceActivity.class));
-//
-//                                if (getActivity() != null) {
-//                                    getActivity().finish();
-//                                }
-
                             } else {
                                 validationLottieAnim.setVisibility(View.INVISIBLE);
                                 if (Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()).length() >= 60) {
                                     Toast.makeText(getContext(), "Error !" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 } else {
                                     Snackbar snackbar = Snackbar.make(view, "Error! " + task.getException().getMessage(), Snackbar.LENGTH_LONG);
-
                                     snackbar.show();
                                 }
                             }

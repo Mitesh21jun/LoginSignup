@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottom_nav_addlocation"
+        android:icon="@drawable/pin_location_icon"
+        android:title="Add Attendance"
+        app:cnb_backgroundColor="@color/colorPrimary" />
+
+    <item
+        android:id="@+id/bottom_nav_viewlocation"
+        android:icon="@drawable/view_location_icon"
+        android:title="View Attendance"
+        app:cnb_backgroundColor="@color/colorPrimary" />
+
+</menu>
