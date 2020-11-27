@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.loginsignup.AttendanceActivity;
+import com.example.loginsignup.DashboardActivity;
 import com.example.loginsignup.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -78,10 +79,10 @@ public class LoginTabFragment extends Fragment {
                                 loginSuccessAnim.setVisibility(View.VISIBLE);
                                 new Timer().schedule(new TimerTask() {
                                     public void run() {
-                                        startActivity(new Intent(getContext(), AttendanceActivity.class));
+                                        startActivity(new Intent(getContext(), DashboardActivity.class));
                                         Activity thisActivity = getActivity();
                                         if (thisActivity != null) {
-                                            startActivity(new Intent(thisActivity, AttendanceActivity.class)); // if needed
+                                            startActivity(new Intent(thisActivity, DashboardActivity.class)); // if needed
                                             thisActivity.finish();
                                         }
                                     }

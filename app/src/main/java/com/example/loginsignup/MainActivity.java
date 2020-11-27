@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new ViewPagerOnTabSelectedListener(viewPager));
 
         if (fAuth.getCurrentUser() != null) {
-            startActivity(new Intent(getApplicationContext(), AttendanceActivity.class));
+            startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
             finish();
         }
     }

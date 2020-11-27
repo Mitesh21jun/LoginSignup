@@ -1,50 +1,34 @@
 package com.example.loginsignup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.loginsignup.fragment.AddAttendanceFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    ChipNavigationBar chipNavigationBar;
+    CardView add_Attendance=findViewById(R.id.card1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        chipNavigationBar = findViewById(R.id.bottom_nav_menu);
-        getSupportFragmentManager().beginTransaction().replace(R.id.navbar_fragment_container,new AddAttendanceFragment()).commit();
+//        add_Attendance.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Intent attendanceIntent = new Intent();
+//                startActivity(new Intent(getApplicationContext(), AttendanceActivity.class));
+//                finish();
+//            }
+      //  });
 
-        bottomMenu();
 
     }
-
-    private void bottomMenu() {
-
-        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(int i) {
-
-                Fragment fragment = null;
-                switch (i){
-                    case R.id.bottom_nav_addlocation:
-                        fragment=new AddAttendanceFragment();
-                        break;
-
-                    case R.id.bottom_nav_viewlocation:
-                        fragment=new AddAttendanceFragment();
-                        break;
-                }
-                getSupportFragmentManager().beginTransaction().replace(R.id.navbar_fragment_container,fragment).commit();
-            }
-        });
-
-    }
-
-
 }

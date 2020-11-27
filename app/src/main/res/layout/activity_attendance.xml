@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Location"
-        android:textAlignment="center"
+        android:textAlignment="inherit"
         android:textColor="@color/cardview_dark_background"
         android:textSize="20sp"
         android:textStyle="bold"

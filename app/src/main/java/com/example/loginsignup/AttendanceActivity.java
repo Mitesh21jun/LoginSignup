@@ -64,7 +64,7 @@ public class AttendanceActivity extends AppCompatActivity {
         Button btn = findViewById(R.id.locbtn);
         txt = findViewById(R.id.loctxt);
         Button signOut = findViewById(R.id.signout);
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+//        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +142,7 @@ public class AttendanceActivity extends AppCompatActivity {
                                             fullNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                    String fullName = dataSnapshot.getValue(String.class);
+                                                    final String fullName = dataSnapshot.getValue(String.class);
                                                     txt.setText("Hello!  " + fullName + "\n Your location is " + myAddress);
                                                     Toast.makeText(AttendanceActivity.this, "Success", Toast.LENGTH_SHORT).show();
                                                 }
