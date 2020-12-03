@@ -86,7 +86,7 @@ public class LoginTabFragment extends Fragment {
                                             thisActivity.finish();
                                         }
                                     }
-                                }, 2000);
+                                }, 0);
                             } else {
                                 loginSuccessAnim.setVisibility(View.INVISIBLE);
                                 if (task.getException().getMessage().length() >= 50) {
