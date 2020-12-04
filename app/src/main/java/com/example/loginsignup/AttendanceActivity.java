@@ -122,7 +122,7 @@ public class AttendanceActivity extends AppCompatActivity {
                                             //Get a reference to our posts
                                             rootNode = FirebaseDatabase.getInstance();
                                             locationReference = rootNode.getReference("location");
-                                            DatabaseReference userReference = rootNode.getReference("Users/" + firebaseAuth.getUid());
+//                                            DatabaseReference userReference = rootNode.getReference("Users/" + firebaseAuth.getUid());
                                             DatabaseReference fullNameReference = rootNode.getReference("Users/" + firebaseAuth.getUid() + "/fullname");
 
                                             final String deviceDetails = Build.MANUFACTURER + " " + Build.MODEL;
@@ -130,6 +130,7 @@ public class AttendanceActivity extends AppCompatActivity {
                                             final Double lng = location.getLongitude();
 
                                             //Location name of lat lng
+
                                             geocoder = new Geocoder(AttendanceActivity.this, Locale.getDefault());
                                             try {
                                                 addressList = geocoder.getFromLocation(lat, lng, 1);
@@ -143,7 +144,7 @@ public class AttendanceActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     final String fullName = dataSnapshot.getValue(String.class);
-                                                    txt.setText("Hello!  " + fullName + "\n Your location is " + myAddress);
+                                                    txt.setText("Hello! " + fullName + "\nYour location is " + myAddress);
                                                     Toast.makeText(AttendanceActivity.this, "Success", Toast.LENGTH_SHORT).show();
                                                 }
                                                 @Override
