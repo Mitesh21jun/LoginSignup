@@ -63,7 +63,7 @@ public class AttendanceActivity extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         Button btn = findViewById(R.id.locbtn);
         txt = findViewById(R.id.loctxt);
-        Button signOut = findViewById(R.id.signout);
+        Button homeBtn = findViewById(R.id.signout);
 //        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
@@ -153,7 +153,7 @@ public class AttendanceActivity extends AppCompatActivity {
                                                 }
                                             });
                                             //Storing values from text field
-                                            LocationHelper locationHelper = new LocationHelper(myAddress, firebaseAuth.getCurrentUser().getEmail(), lat.toString(), lng.toString(), currentDate, currentTime, deviceDetails);
+                                            LocationHelper locationHelper = new LocationHelper(myAddress, firebaseAuth.getCurrentUser().getEmail(), lat.toString(), lng.toString(), currentTime, currentDate, deviceDetails);
                                             locationReference.child(firebaseAuth.getUid()).child(currentDate).child(currentTime).setValue(locationHelper);
                                         }
                                     }
@@ -165,11 +165,10 @@ public class AttendanceActivity extends AppCompatActivity {
             }
         });
 
-        signOut.setOnClickListener(new View.OnClickListener() {
+        homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                 finish();
             }
         });

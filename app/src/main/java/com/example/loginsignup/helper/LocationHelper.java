@@ -1,7 +1,31 @@
 package com.example.loginsignup.helper;
 
 public class LocationHelper {
-    String address, date, email, lat, lng, time, deviceDetails;
+    String address;
+    String date;
+
+    public String getParentDate() {
+
+        return getDate();
+    }
+
+    public void setParentDate(String parentDate) {
+        this.parentDate = parentDate;
+    }
+
+    String parentDate;
+    String email;
+    String lat;
+    String lng;
+    String time;
+    String deviceDetails;
+
+    public LocationHelper() {
+    }
+
+    public LocationHelper(String parentDate) {
+        this.parentDate=parentDate;
+    }
 
     public LocationHelper(String address, String email, String lat, String lng, String time, String date, String deviceDetails) {
         this.lat = lat;
@@ -17,9 +41,7 @@ public class LocationHelper {
 
     public void setAddress(String address) { this.address = address; }
 
-    public String getDate() {
-        return date;
-    }
+    public String getDate() { return date; }
 
     public void setDate(String date) {
         this.date = date;

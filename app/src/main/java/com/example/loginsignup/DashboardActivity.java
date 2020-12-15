@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,7 +18,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    CardView add_Attendance;
+    CardView addAttendanceCard;
+    CardView viewAttendanceCard;
+    CardView leaveCard;
+    CardView logoutCard;
 
     TextView welcomeText;
     FirebaseAuth firebaseAuth;
@@ -31,7 +33,10 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        add_Attendance= findViewById(R.id.card1);
+        addAttendanceCard = findViewById(R.id.card1);
+        viewAttendanceCard=findViewById(R.id.card_viewattendance);
+        leaveCard=findViewById(R.id.card_leave);
+        logoutCard=findViewById(R.id.card_logout);
 
         welcomeText =  findViewById(R.id.txt_welcome);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -55,7 +60,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
 //        thisActivity = getActivity();
-        add_Attendance.setOnClickListener(new View.OnClickListener() {
+        addAttendanceCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), AttendanceActivity.class));
@@ -63,6 +68,24 @@ public class DashboardActivity extends AppCompatActivity {
 
             }
         });
+
+        viewAttendanceCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ViewAttendanceActivity.class));
+
+            }
+        });
+
+        logoutCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
+            }
+        });
+
 
     }
 }
