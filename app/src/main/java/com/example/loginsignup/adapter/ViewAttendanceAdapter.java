@@ -12,7 +12,11 @@ import com.example.loginsignup.R;
 import com.example.loginsignup.helper.LocationHelper;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-public class ViewAttendanceAdapter extends FirebaseRecyclerAdapter<LocationHelper,ViewAttendanceAdapter.AttendanceViewHolder> {
+
+import java.util.ArrayList;
+
+
+public class ViewAttendanceAdapter extends FirebaseRecyclerAdapter<LocationHelper, ViewAttendanceAdapter.AttendanceViewHolder> {
     public ViewAttendanceAdapter(@NonNull FirebaseRecyclerOptions<LocationHelper> options) {
 
         super(options);
@@ -22,31 +26,39 @@ public class ViewAttendanceAdapter extends FirebaseRecyclerAdapter<LocationHelpe
     protected void onBindViewHolder(@NonNull AttendanceViewHolder holder, int position, @NonNull LocationHelper model) {
 
 
-//        holder.viewAddress.setText(model.getAddress());
-        holder.viewDate.setText(model.getParentDate());
-//        holder.viewTime.setText(model.getTime());
+
+
+        holder.viewAddress.setText(model.getAddress());
+
+
+        holder.viewDate.setText(model.getDate());
+        holder.viewTime.setText(model.getTime());
 
     }
 
     @NonNull
     @Override
     public AttendanceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.attendance_view_single_row,parent,false);
-        return new AttendanceViewHolder(view);    }
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.attendance_view_single_row, parent, false);
+        return new AttendanceViewHolder(view);
+    }
 
-    class AttendanceViewHolder extends RecyclerView.ViewHolder{
 
 
-//        TextView viewAddress;
+    class AttendanceViewHolder extends RecyclerView.ViewHolder {
+                TextView viewAddress;
         TextView viewDate;
-//        TextView viewTime;
+                TextView viewTime;
+
+
 
         public AttendanceViewHolder(@NonNull View itemView) {
             super(itemView);
 
-//            viewAddress= (TextView)itemView.findViewById(R.id.txt_viewaddress);
-            viewDate=(TextView)itemView.findViewById(R.id.txt_viewdate);
-//            viewTime=(TextView)itemView.findViewById(R.id.txt_viewtime);
+
+            viewAddress= (TextView)itemView.findViewById(R.id.txt_viewaddress);
+            viewDate = (TextView) itemView.findViewById(R.id.txt_viewdate);
+            viewTime=(TextView)itemView.findViewById(R.id.txt_viewtime);
 
         }
     }

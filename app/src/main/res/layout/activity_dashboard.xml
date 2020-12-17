@@ -182,7 +182,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Log a leave"
+                android:text="Request a leave"
                 android:paddingBottom="10dp"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"

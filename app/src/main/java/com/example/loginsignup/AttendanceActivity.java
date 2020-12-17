@@ -153,7 +153,7 @@ public class AttendanceActivity extends AppCompatActivity {
                                                 }
                                             });
                                             //Storing values from text field
-                                            LocationHelper locationHelper = new LocationHelper(myAddress, firebaseAuth.getCurrentUser().getEmail(), lat.toString(), lng.toString(), currentTime, currentDate, deviceDetails);
+                                            LocationHelper locationHelper = new LocationHelper(myAddress, lat.toString(), lng.toString(), currentTime, currentDate, deviceDetails);
                                             locationReference.child(firebaseAuth.getUid()).child(currentDate).child(currentTime).setValue(locationHelper);
                                         }
                                     }

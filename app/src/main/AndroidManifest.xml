@@ -15,7 +15,8 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewAttendanceActivity"></activity>
+        <activity android:name=".RequestALeaveActivity"></activity>
+        <activity android:name=".ViewAttendanceActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>

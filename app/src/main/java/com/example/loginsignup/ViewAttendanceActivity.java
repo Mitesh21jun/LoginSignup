@@ -29,15 +29,13 @@ public class ViewAttendanceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_attendance);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
         attendanceRv = (RecyclerView) findViewById(R.id.attendance_rv);
-
         attendanceRv.setLayoutManager(new LinearLayoutManager(this));
         databaseReference = FirebaseDatabase.getInstance().getReference().child("location");
         attendanceStr = databaseReference.toString();
         FirebaseRecyclerOptions<LocationHelper> options =
                 new FirebaseRecyclerOptions.Builder<LocationHelper>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("location").child(firebaseAuth.getUid()), LocationHelper.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("location").child(firebaseAuth.getUid()).child("2020-12-17"), LocationHelper.class)
                         .build();
 
 

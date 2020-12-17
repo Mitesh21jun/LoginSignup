@@ -1,19 +1,9 @@
 package com.example.loginsignup.helper;
 
 public class LocationHelper {
+
     String address;
     String date;
-
-    public String getParentDate() {
-
-        return getDate();
-    }
-
-    public void setParentDate(String parentDate) {
-        this.parentDate = parentDate;
-    }
-
-    String parentDate;
     String email;
     String lat;
     String lng;
@@ -23,25 +13,26 @@ public class LocationHelper {
     public LocationHelper() {
     }
 
-    public LocationHelper(String parentDate) {
-        this.parentDate=parentDate;
-    }
-
-    public LocationHelper(String address, String email, String lat, String lng, String time, String date, String deviceDetails) {
+    public LocationHelper(String address, String lat, String lng, String time, String date, String deviceDetails) {
         this.lat = lat;
         this.deviceDetails = deviceDetails;
         this.lng = lng;
         this.time = time;
-        this.email = email;
         this.address = address;
         this.date = date;
     }
 
-    public String getAddress() { return address; }
+    public String getAddress() {
+        return address;
+    }
 
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public String getDate() { return date; }
+    public String getDate() {
+        return date;
+    }
 
     public void setDate(String date) {
         this.date = date;
@@ -63,17 +54,25 @@ public class LocationHelper {
         this.email = email;
     }
 
-    public String getTime() { return time; }
+    public String getTime() {
+        return time;
+    }
 
-    public void setTime(String time) { this.time = time; }
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getLat() {
         return lat;
     }
 
-    public void setLat(String lat) { this.lat = lat; }
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
 
-    public String getLng() { return lng; }
+    public String getLng() {
+        return lng;
+    }
 
     public void setLng(String lng) {
         this.lng = lng;
