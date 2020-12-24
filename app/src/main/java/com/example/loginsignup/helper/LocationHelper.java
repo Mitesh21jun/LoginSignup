@@ -9,10 +9,15 @@ public class LocationHelper {
     String lng;
     String time;
     String deviceDetails;
+    Boolean isLeave;
 
     public LocationHelper() {
     }
 
+    public LocationHelper(Boolean isLeave)
+    {
+        this.isLeave=isLeave;
+    }
     public LocationHelper(String address, String lat, String lng, String time, String date, String deviceDetails) {
         this.lat = lat;
         this.deviceDetails = deviceDetails;
@@ -21,6 +26,16 @@ public class LocationHelper {
         this.address = address;
         this.date = date;
     }
+
+    public Boolean getLeave() {
+        return isLeave;
+    }
+
+    public void setLeave(Boolean leave) {
+        isLeave = leave;
+    }
+
+
 
     public String getAddress() {
         return address;

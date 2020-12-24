@@ -1,22 +1,30 @@
 package com.example.loginsignup.adapter;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.loginsignup.R;
+import com.example.loginsignup.helper.LeaveHelper;
 import com.example.loginsignup.helper.LocationHelper;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class ViewAttendanceAdapter extends FirebaseRecyclerAdapter<LocationHelper, ViewAttendanceAdapter.AttendanceViewHolder> {
+
+    Boolean isLeave;
     public ViewAttendanceAdapter(@NonNull FirebaseRecyclerOptions<LocationHelper> options) {
 
         super(options);
@@ -27,9 +35,26 @@ public class ViewAttendanceAdapter extends FirebaseRecyclerAdapter<LocationHelpe
 
 
 
+        if (model.getAddress() != null) {
+            holder.viewAddress.setText(model.getAddress());
+            holder.leaveCard.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            holder.viewAddress.setTextSize(18);
+            holder.viewAddress.setTypeface(null, Typeface.NORMAL);
 
-        holder.viewAddress.setText(model.getAddress());
 
+        }
+        if (model.getAddress()==null) {
+            holder.viewAddress.setText("Leave");
+
+            if(holder.viewAddress.getText()=="Leave"){
+                holder.leaveCard.setCardBackgroundColor(Color.parseColor("#ffbb33"));
+                holder.viewAddress.setTextSize(22);
+                holder.viewAddress.setTypeface(null, Typeface.BOLD_ITALIC);
+
+            }
+
+
+        }
 
         holder.viewDate.setText(model.getDate());
         holder.viewTime.setText(model.getTime());
@@ -44,21 +69,21 @@ public class ViewAttendanceAdapter extends FirebaseRecyclerAdapter<LocationHelpe
     }
 
 
-
     class AttendanceViewHolder extends RecyclerView.ViewHolder {
-                TextView viewAddress;
+        TextView viewAddress;
         TextView viewDate;
-                TextView viewTime;
-
+        TextView viewTime;
+        CardView leaveCard;
 
 
         public AttendanceViewHolder(@NonNull View itemView) {
             super(itemView);
 
 
-            viewAddress= (TextView)itemView.findViewById(R.id.txt_viewaddress);
+            leaveCard = (CardView) itemView.findViewById(R.id.leavecard);
+            viewAddress = (TextView) itemView.findViewById(R.id.txt_viewaddress);
             viewDate = (TextView) itemView.findViewById(R.id.txt_viewdate);
-            viewTime=(TextView)itemView.findViewById(R.id.txt_viewtime);
+            viewTime = (TextView) itemView.findViewById(R.id.txt_viewtime);
 
         }
     }

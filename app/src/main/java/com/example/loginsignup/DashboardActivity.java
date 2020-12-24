@@ -20,7 +20,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     CardView addAttendanceCard;
     CardView viewAttendanceCard;
-    CardView leaveCard;
+    CardView leaveRequestCard;
     CardView logoutCard;
 
     TextView welcomeText;
@@ -35,7 +35,7 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         addAttendanceCard = findViewById(R.id.card1);
         viewAttendanceCard=findViewById(R.id.card_viewattendance);
-        leaveCard=findViewById(R.id.card_leave);
+        leaveRequestCard =findViewById(R.id.card_leave);
         logoutCard=findViewById(R.id.card_logout);
 
         welcomeText =  findViewById(R.id.txt_welcome);
@@ -85,6 +85,16 @@ public class DashboardActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        leaveRequestCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(getApplicationContext(),RequestALeaveActivity.class));
+//                finish();
+            }
+        });
+
 
 
     }

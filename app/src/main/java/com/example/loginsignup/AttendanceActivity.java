@@ -73,7 +73,7 @@ public class AttendanceActivity extends AppCompatActivity {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        //get the loacation here
+                        //get the location here
 
                         LocationRequest locationRequest = new LocationRequest()
                                 .setFastestInterval(1500)
@@ -97,12 +97,15 @@ public class AttendanceActivity extends AppCompatActivity {
                                             try {
                                                 ResolvableApiException resolvableApiException = (ResolvableApiException) e;
                                                 resolvableApiException.startResolutionForResult(AttendanceActivity.this, REQUEST_CHECK_CODE);
+
                                             } catch (IntentSender.SendIntentException | ClassCastException ex) {
                                                 ex.printStackTrace();
                                             }
                                             break;
 
                                         case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                                            Toast.makeText(AttendanceActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
+
                                             break;
                                     }
                                     e.printStackTrace();
@@ -114,14 +117,14 @@ public class AttendanceActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<Location>() {
                                     @Override
                                     public void onSuccess(Location location) {
-                                        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-                                        String currentDate = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(new Date());
+                                        final String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                                        final String currentDate = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(new Date());
 
                                         if (location != null) {
 
                                             //Get a reference to our posts
                                             rootNode = FirebaseDatabase.getInstance();
-                                            locationReference = rootNode.getReference("location");
+                                            locationReference = rootNode.getReference("attendance");
 //                                            DatabaseReference userReference = rootNode.getReference("Users/" + firebaseAuth.getUid());
                                             DatabaseReference fullNameReference = rootNode.getReference("Users/" + firebaseAuth.getUid() + "/fullname");
 
@@ -145,16 +148,16 @@ public class AttendanceActivity extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     final String fullName = dataSnapshot.getValue(String.class);
                                                     txt.setText("Hello! " + fullName + "\nYour location is " + myAddress);
-                                                    Toast.makeText(AttendanceActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(AttendanceActivity.this, "Success, now redirecting to home", Toast.LENGTH_SHORT).show();
+                                                    //Storing values from text field
+                                                    LocationHelper locationHelper = new LocationHelper(myAddress, lat.toString(), lng.toString(), currentTime, currentDate, deviceDetails);
+                                                    locationReference.child(firebaseAuth.getUid()).child(currentDate + " " + currentTime).setValue(locationHelper);
                                                 }
                                                 @Override
                                                 public void onCancelled(@NonNull DatabaseError databaseError) {
                                                     Toast.makeText(getApplicationContext(), "Error fetching data", Toast.LENGTH_LONG).show();
                                                 }
                                             });
-                                            //Storing values from text field
-                                            LocationHelper locationHelper = new LocationHelper(myAddress, lat.toString(), lng.toString(), currentTime, currentDate, deviceDetails);
-                                            locationReference.child(firebaseAuth.getUid()).child(currentDate).child(currentTime).setValue(locationHelper);
                                         }
                                     }
                                 });

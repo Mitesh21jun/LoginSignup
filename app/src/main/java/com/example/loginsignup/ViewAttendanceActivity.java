@@ -12,15 +12,13 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.snapshot.ChildrenNode;
 
 public class ViewAttendanceActivity extends AppCompatActivity {
 
     RecyclerView attendanceRv;
-    String attendanceStr;
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
-    LocationHelper locationHelper;
-
     ViewAttendanceAdapter viewAttendanceAdapter;
 
     @Override
@@ -30,14 +28,16 @@ public class ViewAttendanceActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         attendanceRv = (RecyclerView) findViewById(R.id.attendance_rv);
-        attendanceRv.setLayoutManager(new LinearLayoutManager(this));
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("location");
-        attendanceStr = databaseReference.toString();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        attendanceRv.setLayoutManager(linearLayoutManager);
+//        attendanceRv.setLayoutManager(new LinearLayoutManager(this));
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("attendance");
         FirebaseRecyclerOptions<LocationHelper> options =
                 new FirebaseRecyclerOptions.Builder<LocationHelper>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("location").child(firebaseAuth.getUid()).child("2020-12-17"), LocationHelper.class)
+                        .setQuery(databaseReference.child(firebaseAuth.getUid()), LocationHelper.class)
                         .build();
-
 
         viewAttendanceAdapter = new ViewAttendanceAdapter(options);
         attendanceRv.setAdapter(viewAttendanceAdapter);
